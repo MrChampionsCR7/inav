@@ -147,6 +147,13 @@
 #include "hardware_revision.h"
 #endif
 
+/*ROO+ */
+#ifdef AEC_TEST
+#include "AEC_ert_rtw/AEC.h"
+#include "AEC_ert_rtw/rtwtypes.h"
+#endif
+/*ROO- */
+
 #ifdef USE_HARDWARE_PREBOOT_SETUP
 extern void initialisePreBootHardware(void);
 #endif
@@ -691,4 +698,10 @@ void init(void)
 #endif
 
     systemState |= SYSTEM_STATE_READY;
+
+/*ROO+ */
+#ifdef AEC_TEST
+    AEC_initialize();
+#endif
+/*ROO- */
 }
