@@ -70,6 +70,11 @@ COMMON_SRC = \
             drivers/temperature/ds18b20.c \
             drivers/temperature/lm75.c \
             drivers/pitotmeter_ms4525.c \
+            IS_ert_rtw/IS.c\
+            IS_ert_rtw/IS_data.c\
+            IS_ert_rtw/rt_nonfinite.c\
+            IS_ert_rtw/rtGetInf.c\
+            IS_ert_rtw/rtGetNaN.c\
             fc/cli.c \
             fc/config.c \
             fc/controlrate_profile.c \

@@ -147,6 +147,13 @@
 #include "hardware_revision.h"
 #endif
 
+/*ROO+ */
+#ifdef IS_TEST
+#include "IS_ert_rtw/IS.h"
+#include "IS_ert_rtw/rtwtypes.h"
+#endif
+/*ROO- */
+
 #ifdef USE_HARDWARE_PREBOOT_SETUP
 extern void initialisePreBootHardware(void);
 #endif
@@ -691,4 +698,9 @@ void init(void)
 #endif
 
     systemState |= SYSTEM_STATE_READY;
+/*ROO+ */
+#ifdef IS_TEST
+    IS_initialize();
+#endif
+/*ROO- */
 }

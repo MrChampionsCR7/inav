@@ -118,6 +118,12 @@ extern uint8_t __config_end;
 #include "telemetry/telemetry.h"
 #include "build/debug.h"
 
+/*ROO+ */
+#ifdef IS_TEST
+#include "IS_ert_rtw/IS.h"
+#endif
+/*ROO- */
+
 #if FLASH_SIZE > 128
 #define PLAY_SOUND
 #endif
@@ -141,6 +147,12 @@ static void cliAssert(char *cmdline);
 static bool commandBatchActive = false;
 static bool commandBatchError = false;
 #endif
+
+/*ROO+ */
+#ifdef IS_TEST
+void rt_OneStep(void);
+#endif
+/*ROO- */
 
 // sync this with features_e
 static const char * const featureNames[] = {
@@ -3604,3 +3616,48 @@ void cliInit(const serialConfig_t *serialConfig)
 {
     UNUSED(serialConfig);
 }
+
+/* ROO +*/
+#ifdef IS_TEST
+void NOINLINE taskSerialTestMessage(timeUs_t currentTimeUs){
+    UNUSED(currentTimeUs);
+    if (cliMode) {
+        IS_U.ActCmd = (double)0;
+        IS_U.Throttle = (double)0.7;
+        IS_U.VelReel = (double)10;
+        rt_OneStep();
+        cliPrintf("%f,%f,%f\n",IS_Y.OutAltitude, IS_Y.Theta, IS_Y.Alpha);
+    }
+}
+void rt_OneStep(void)
+{
+  static boolean_T OverrunFlag = false;
+
+  /* Disable interrupts here */
+
+  /* Check for overrun */
+  if (OverrunFlag) {
+    rtmSetErrorStatus(IS_M, "Overrun");
+    return;
+  }
+
+  OverrunFlag = true;
+
+  /* Save FPU context here (if necessary) */
+  /* Re-enable timer or interrupt here */
+  /* Set model inputs here */
+
+  /* Step the model for base rate */
+  IS_step();
+
+  /* Get model outputs here */
+
+  /* Indicate task complete */
+  OverrunFlag = false;
+
+  /* Disable interrupts here */
+  /* Restore FPU context here (if necessary) */
+  /* Enable interrupts here */
+}
+#endif 
+/* ROO -*/
