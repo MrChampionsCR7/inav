@@ -9,9 +9,9 @@
 #include <string.h>
 #define MAXIMUM_STRING_SIZE 50
 
-/*IBHM*/
+/*ROO*/
 void rt_OneStep(void);
-/*IBHM*/
+/*ROO*/
 static serialPort_t * serialPort = NULL;
 
 
@@ -51,7 +51,7 @@ void customSerialTest_Init (void){
     //serialPort = uartOpen(USART2, NULL, NULL, baudRates[BAUD_115200], MODE_TX, SERIAL_NOT_INVERTED | SERIAL_STOPBITS_1 | SERIAL_PARITY_NO);
 }
 
-/*IBHM*/
+/*ROO*/
 void rt_OneStep(void)
 {
   static boolean_T OverrunFlag = false;
@@ -82,4 +82,4 @@ void rt_OneStep(void)
   /* Restore FPU context here (if necessary) */
   /* Enable interrupts here */
 }
-/*IBHM*/
+/*ROO*/
