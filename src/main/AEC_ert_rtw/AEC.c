@@ -171,7 +171,7 @@ void AEC_step(void)
      *  DiscreteIntegrator: '<S34>/Integrator'
      *  Gain: '<S39>/Proportional Gain'
      */
-    rtb_Sum = (-300.0 * Subtract1 + AEC_DW.Integrator_DSTATE) +
+    rtb_Sum = (-400.0 * Subtract1 + AEC_DW.Integrator_DSTATE) +
       rtb_FilterCoefficient;
 
     /* Sum: '<S1>/Diff' incorporates:

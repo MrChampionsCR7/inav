@@ -3622,7 +3622,7 @@ void cliInit(const serialConfig_t *serialConfig)
 void NOINLINE taskSerialTestMessage(timeUs_t currentTimeUs){
     UNUSED(currentTimeUs);
     if (cliMode) {
-        AEC_U.AltCmd = (double)500;
+        AEC_U.AltCmd = (double)400;
         AEC_U.Theta = (double)-20;
         rt_OneStep();
         cliPrintf("%f,%f\n", AEC_Y.AltError, AEC_Y.ElevCmd);
