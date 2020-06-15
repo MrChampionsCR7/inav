@@ -118,6 +118,12 @@ extern uint8_t __config_end;
 #include "telemetry/telemetry.h"
 #include "build/debug.h"
 
+/*ROO+ */
+#ifdef P1_TEST
+#include "Example/Example.h"
+#endif
+/*ROO- */
+
 #if FLASH_SIZE > 128
 #define PLAY_SOUND
 #endif
@@ -141,6 +147,12 @@ static void cliAssert(char *cmdline);
 static bool commandBatchActive = false;
 static bool commandBatchError = false;
 #endif
+
+/*ROO+ */
+#ifdef P1_TEST
+void rt_OneStep(void);
+#endif
+/*ROO- */
 
 // sync this with features_e
 static const char * const featureNames[] = {
@@ -3604,3 +3616,50 @@ void cliInit(const serialConfig_t *serialConfig)
 {
     UNUSED(serialConfig);
 }
+
+/* AAO +*/
+#ifdef P1_TEST
+void NOINLINE taskSerialTestMessage(timeUs_t currentTimeUs){
+    UNUSED(currentTimeUs);
+    if (cliMode) {
+        Example_U.coolant_temp = 20;
+        rt_OneStep();
+        cliPrintf("The temperature is: %d\n", Example_Y.Temperature);
+        if (Example_Y.error)
+            cliPrintf("Error: Out of range\n");
+        else
+            cliPrintf("No Error: In range\n");
+    }
+}
+void rt_OneStep(void)
+{
+  static boolean_T OverrunFlag = false;
+
+  /* Disable interrupts here */
+
+  /* Check for overrun */
+  if (OverrunFlag) {
+    rtmSetErrorStatus(Example_M, "Overrun");
+    return;
+  }
+
+  OverrunFlag = true;
+
+  /* Save FPU context here (if necessary) */
+  /* Re-enable timer or interrupt here */
+  /* Set model inputs here */
+
+  /* Step the model */
+  Example_step();
+
+  /* Get model outputs here */
+
+  /* Indicate task complete */
+  OverrunFlag = false;
+
+  /* Disable interrupts here */
+  /* Restore FPU context here (if necessary) */
+  /* Enable interrupts here */
+}
+#endif
+/* AAO -*/

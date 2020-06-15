@@ -347,6 +347,12 @@ void fcTasksInit(void)
 #ifdef USE_GLOBAL_FUNCTIONS
     setTaskEnabled(TASK_GLOBAL_FUNCTIONS, true);
 #endif
+/* ROO +*/
+#ifdef USE_SERIAL_TEST_MESSAGE
+    setTaskEnabled(TASK_SERIAL_TEST_MESSAGE, true);
+#endif
+/* ROO -*/
+
 }
 
 cfTask_t cfTasks[TASK_COUNT] = {
@@ -576,4 +582,14 @@ cfTask_t cfTasks[TASK_COUNT] = {
         .staticPriority = TASK_PRIORITY_LOW,
     },
 #endif
+/* ROO +*/
+#ifdef P1_TEST
+    [TASK_SERIAL_TEST_MESSAGE] = {
+        .taskName = "SerialTestMessage",
+        .taskFunc = taskSerialTestMessage,
+        .desiredPeriod = TASK_PERIOD_HZ(1),   // 1 Hz
+        .staticPriority = TASK_PRIORITY_LOW,
+    },
+#endif
+/* ROO -*/
 };

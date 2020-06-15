@@ -147,6 +147,13 @@
 #include "hardware_revision.h"
 #endif
 
+/*ROO+ */
+#ifdef P1_TEST
+#include "Example/Example.h"
+#include "Example/rtwtypes.h"
+#endif
+/*ROO- */
+
 #ifdef USE_HARDWARE_PREBOOT_SETUP
 extern void initialisePreBootHardware(void);
 #endif
@@ -691,4 +698,10 @@ void init(void)
 #endif
 
     systemState |= SYSTEM_STATE_READY;
+
+/*ROO+ */
+#ifdef P1_TEST
+    Example_initialize();
+#endif
+/*ROO- */
 }
